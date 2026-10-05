@@ -1,43 +1,207 @@
-const menuToggle = document.getElementById("menuToggle");
-const mainNav = document.getElementById("mainNav");
+/* =========================================================
+   IG SITES — PORTFÓLIO
+   ========================================================= */
+
+
+/* ================= MENU MOBILE ================= */
+
+const menuToggle =
+  document.getElementById("menuToggle");
+
+const mainNav =
+  document.getElementById("mainNav");
+
 
 if (menuToggle && mainNav) {
+
   menuToggle.addEventListener("click", () => {
-    const opened = mainNav.classList.toggle("open");
-    menuToggle.setAttribute("aria-expanded", String(opened));
-    menuToggle.setAttribute("aria-label", opened ? "Fechar menu" : "Abrir menu");
-    menuToggle.textContent = opened ? "×" : "☰";
+
+    const isOpen =
+      mainNav.classList.toggle("open");
+
+    menuToggle.setAttribute(
+      "aria-expanded",
+      isOpen
+    );
+
+    menuToggle.textContent =
+      isOpen ? "✕" : "☰";
+
   });
-  mainNav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
-    mainNav.classList.remove("open");
-    menuToggle.setAttribute("aria-expanded", "false");
-    menuToggle.setAttribute("aria-label", "Abrir menu");
-    menuToggle.textContent = "☰";
-  }));
+
+
+  mainNav
+    .querySelectorAll("a")
+    .forEach(link => {
+
+      link.addEventListener("click", () => {
+
+        mainNav.classList.remove("open");
+
+        menuToggle.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        menuToggle.textContent = "☰";
+
+      });
+
+    });
+
 }
 
-// Insira no href de cada botão Visualizar projeto o URL correspondente publicado na Vercel.
-document.querySelectorAll(".project-link").forEach(link => {
-  link.addEventListener("click", event => {
-    if (link.getAttribute("href") === "#") {
-      event.preventDefault();
-      alert(`O link de "${link.dataset.project}" ainda não foi configurado. Edite o href deste projeto no index.html.`);
+
+/* ================= ANO DO RODAPÉ ================= */
+
+const year =
+  document.getElementById("year");
+
+if (year) {
+
+  year.textContent =
+    new Date().getFullYear();
+
+}
+
+
+/* =========================================================
+   LINKS DOS PROJETOS
+
+   COLOQUE AQUI OS LINKS PUBLICADOS NO VERCEL.
+
+   Exemplo:
+
+   "Pastelaria Jacaré":
+      "https://meusite.vercel.app"
+
+   ========================================================= */
+
+const projectLinks = {
+
+  "Pastelaria Jacaré":
+    "",
+
+  "Sorveteria Coltelli":
+    "",
+
+  "Oficina Mecânica Sergio":
+    "",
+
+  "Mecânica Márcio Parahyba":
+    "",
+
+  "Mecânica CWV":
+    "",
+
+  "Feira Local":
+    ""
+
+};
+
+
+/* ================= ABRIR PROJETOS ================= */
+
+const projectButtons =
+  document.querySelectorAll(
+    ".project-link"
+  );
+
+
+projectButtons.forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    const projectName =
+      button.dataset.project;
+
+    const projectUrl =
+      projectLinks[projectName];
+
+
+    /*
+      Se ainda não tiver colocado
+      o endereço, mostra um aviso.
+    */
+
+    if (!projectUrl) {
+
+      alert(
+        `O endereço do projeto "${projectName}" ainda não foi configurado no script.js.`
+      );
+
+      return;
+
     }
+
+
+    window.open(
+      projectUrl,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
   });
+
 });
 
-const form = document.getElementById("contactForm");
-if (form) {
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-    const nome = document.getElementById("clientName").value.trim();
-    const negocio = document.getElementById("businessName").value.trim();
-    if (!nome || !negocio) return;
 
-    const mensagem = `Olá! Vi o portfólio da IG Sites e quero um site como estes.\n\nMeu nome: ${nome}\nMeu negócio: ${negocio}`;
-    const url = "https://wa.me/5541995229213?text=" + encodeURIComponent(mensagem);
-    window.open(url, "_blank", "noopener,noreferrer");
-  });
+/* ================= FORMULÁRIO ================= */
+
+const contactForm =
+  document.getElementById(
+    "contactForm"
+  );
+
+
+if (contactForm) {
+
+  contactForm.addEventListener(
+    "submit",
+    event => {
+
+      event.preventDefault();
+
+
+      const name =
+        document
+          .getElementById("clientName")
+          .value
+          .trim();
+
+
+      const business =
+        document
+          .getElementById("businessName")
+          .value
+          .trim();
+
+
+      if (!name || !business) {
+
+        alert(
+          "Preencha seu nome e o nome do seu negócio."
+        );
+
+        return;
+
+      }
+
+
+      const message =
+        `Olá! Vi o portfólio da IG Sites e quero criar um site.\n\nMeu nome: ${name}\nMeu negócio: ${business}`;
+
+
+      const whatsappUrl =
+        `https://wa.me/5541995229213?text=${encodeURIComponent(message)}`;
+
+
+      window.open(
+        whatsappUrl,
+        "_blank"
+      );
+
+    }
+  );
+
 }
-const year = document.getElementById("year");
-if (year) year.textContent = new Date().getFullYear();
