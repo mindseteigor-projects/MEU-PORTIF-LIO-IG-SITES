@@ -1,35 +1,29 @@
-const menuToggle = document.getElementById("menuToggle");
-const mainNav = document.getElementById("mainNav");
+/* =========================================================
+   IG SITES — SCRIPT
+========================================================= */
 
 
-// =========================
-// MENU MOBILE
-// =========================
+/* =========================================================
+   MENU MOBILE
+========================================================= */
 
-if (menuToggle && mainNav) {
+const menuButton = document.getElementById("menuButton");
+const nav = document.getElementById("nav");
 
-  menuToggle.addEventListener("click", () => {
+if (menuButton && nav) {
 
-    const open = mainNav.classList.toggle("open");
+  menuButton.addEventListener("click", () => {
 
-    menuToggle.setAttribute(
-      "aria-expanded",
-      open ? "true" : "false"
-    );
+    nav.classList.toggle("active");
 
   });
 
 
-  mainNav.querySelectorAll("a").forEach(link => {
+  nav.querySelectorAll("a").forEach(link => {
 
     link.addEventListener("click", () => {
 
-      mainNav.classList.remove("open");
-
-      menuToggle.setAttribute(
-        "aria-expanded",
-        "false"
-      );
+      nav.classList.remove("active");
 
     });
 
@@ -38,41 +32,52 @@ if (menuToggle && mainNav) {
 }
 
 
-// =========================
-// FORMULÁRIO WHATSAPP
-// =========================
+/* =========================================================
+   FORMULÁRIO
+========================================================= */
 
-const form = document.getElementById("contactForm");
+const contactForm = document.getElementById("contactForm");
 
-if (form) {
+if (contactForm) {
 
-  form.addEventListener("submit", event => {
+  contactForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
 
-    const nome =
-      document
-        .getElementById("clientName")
-        .value
-        .trim();
+    const name =
+      document.getElementById("name").value.trim();
 
-    const negocio =
-      document
-        .getElementById("businessName")
-        .value
-        .trim();
+    const business =
+      document.getElementById("business").value.trim();
 
 
-    const mensagem =
-      `Olá! Vi o portfólio da IG Sites e quero criar um site.\n\n` +
-      `Meu nome: ${nome}\n` +
-      `Meu negócio: ${negocio}`;
+    if (!name || !business) {
+
+      alert("Preencha seu nome e o nome da empresa.");
+
+      return;
+
+    }
+
+
+    const message =
+      `Olá! Tenho interesse em criar um site para minha empresa.
+
+Meu nome: ${name}
+
+Empresa: ${business}
+
+Gostaria de saber mais sobre o trabalho da IG Sites.`;
+
+
+    const whatsappUrl =
+      "https://wa.me/5541995229213?text=" +
+      encodeURIComponent(message);
 
 
     window.open(
-      `https://wa.me/5541995229213?text=${encodeURIComponent(mensagem)}`,
-      "_blank",
-      "noopener"
+      whatsappUrl,
+      "_blank"
     );
 
   });
@@ -80,12 +85,63 @@ if (form) {
 }
 
 
-// =========================
-// ANO AUTOMÁTICO
-// =========================
+/* =========================================================
+   ANIMAÇÃO SUAVE DOS PROJETOS
+========================================================= */
 
-const year = document.getElementById("year");
+const projectCards =
+  document.querySelectorAll(".project-card");
+
+
+if (projectCards.length) {
+
+  const observer =
+    new IntersectionObserver(
+      entries => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.08
+      }
+    );
+
+
+  projectCards.forEach(card => {
+
+    card.style.opacity = "0";
+    card.style.transform = "translateY(25px)";
+    card.style.transition =
+      "opacity .6s ease, transform .6s ease, border-color .3s ease";
+
+
+    observer.observe(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   ANO AUTOMÁTICO
+========================================================= */
+
+const year =
+  document.querySelector(".footer p");
 
 if (year) {
-  year.textContent = new Date().getFullYear();
+
+  year.textContent =
+    `© ${new Date().getFullYear()} IG Sites — Desenvolvimento Web`;
+
 }
