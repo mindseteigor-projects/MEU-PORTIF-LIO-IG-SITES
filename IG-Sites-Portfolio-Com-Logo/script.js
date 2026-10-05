@@ -1,203 +1,102 @@
-/* =========================================================
+/* ==================================================
    IG SITES — PORTFÓLIO
-   ========================================================= */
+================================================== */
 
 
-/* ================= MENU MOBILE ================= */
+/* ===============================
+   MENU MOBILE
+================================ */
 
-const menuToggle =
-  document.getElementById("menuToggle");
-
-const mainNav =
-  document.getElementById("mainNav");
-
+const menuToggle = document.getElementById("menuToggle");
+const mainNav = document.getElementById("mainNav");
 
 if (menuToggle && mainNav) {
 
   menuToggle.addEventListener("click", () => {
 
-    const isOpen =
-      mainNav.classList.toggle("open");
+    const opened = mainNav.classList.toggle("active");
 
     menuToggle.setAttribute(
       "aria-expanded",
-      isOpen
+      opened ? "true" : "false"
     );
-
-    menuToggle.textContent =
-      isOpen ? "✕" : "☰";
 
   });
 
 
-  mainNav
-    .querySelectorAll("a")
-    .forEach(link => {
+  mainNav.querySelectorAll("a").forEach(link => {
 
-      link.addEventListener("click", () => {
+    link.addEventListener("click", () => {
 
-        mainNav.classList.remove("open");
+      mainNav.classList.remove("active");
 
-        menuToggle.setAttribute(
-          "aria-expanded",
-          "false"
-        );
-
-        menuToggle.textContent = "☰";
-
-      });
+      menuToggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
 
     });
 
+  });
+
 }
 
 
-/* ================= ANO DO RODAPÉ ================= */
+/* ===============================
+   ANO DO FOOTER
+================================ */
 
-const year =
-  document.getElementById("year");
+const year = document.getElementById("year");
 
 if (year) {
 
-  year.textContent =
-    new Date().getFullYear();
+  year.textContent = new Date().getFullYear();
 
 }
 
 
-/* =========================================================
-   LINKS DOS PROJETOS
-
-   COLOQUE AQUI OS LINKS PUBLICADOS NO VERCEL.
-
-   Exemplo:
-
-   "Pastelaria Jacaré":
-      "https://meusite.vercel.app"
-
-   ========================================================= */
-
-const projectLinks = {
-
-  "Pastelaria Jacaré":
-    "",
-
-  "Sorveteria Coltelli":
-    "",
-
-  "Oficina Mecânica Sergio":
-    "",
-
-  "Mecânica Márcio Parahyba":
-    "",
-
-  "Mecânica CWV":
-    "",
-
-  "Feira Local":
-    ""
-
-};
-
-
-/* ================= ABRIR PROJETOS ================= */
-
-const projectButtons =
-  document.querySelectorAll(
-    ".project-link"
-  );
-
-
-projectButtons.forEach(button => {
-
-  button.addEventListener("click", () => {
-
-    const projectName =
-      button.dataset.project;
-
-    const projectUrl =
-      projectLinks[projectName];
-
-
-    /*
-      Se ainda não tiver colocado
-      o endereço, mostra um aviso.
-    */
-
-    if (!projectUrl) {
-
-      alert(
-        `O endereço do projeto "${projectName}" ainda não foi configurado no script.js.`
-      );
-
-      return;
-
-    }
-
-
-    window.open(
-      projectUrl,
-      "_blank",
-      "noopener,noreferrer"
-    );
-
-  });
-
-});
-
-
-/* ================= FORMULÁRIO ================= */
+/* ===============================
+   FORMULÁRIO DE CONTATO
+================================ */
 
 const contactForm =
-  document.getElementById(
-    "contactForm"
-  );
-
+  document.getElementById("contactForm");
 
 if (contactForm) {
 
   contactForm.addEventListener(
     "submit",
-    event => {
+    function (event) {
 
       event.preventDefault();
 
-
-      const name =
+      const nome =
         document
           .getElementById("clientName")
           .value
           .trim();
 
-
-      const business =
+      const negocio =
         document
           .getElementById("businessName")
           .value
           .trim();
 
 
-      if (!name || !business) {
+      const mensagem =
+        `Olá! Vi o portfólio da IG Sites e quero criar um site.
 
-        alert(
-          "Preencha seu nome e o nome do seu negócio."
-        );
-
-        return;
-
-      }
+Meu nome: ${nome}
+Meu negócio: ${negocio}`;
 
 
-      const message =
-        `Olá! Vi o portfólio da IG Sites e quero criar um site.\n\nMeu nome: ${name}\nMeu negócio: ${business}`;
-
-
-      const whatsappUrl =
-        `https://wa.me/5541995229213?text=${encodeURIComponent(message)}`;
+      const whatsapp =
+        "https://wa.me/5541995229213?text=" +
+        encodeURIComponent(mensagem);
 
 
       window.open(
-        whatsappUrl,
+        whatsapp,
         "_blank"
       );
 
@@ -205,3 +104,49 @@ if (contactForm) {
   );
 
 }
+
+
+/* ===============================
+   LINKS DOS PROJETOS
+================================ */
+
+/*
+   Os links agora ficam diretamente
+   no index.html.
+
+   Não existe mais o aviso:
+   "Nenhum link foi configurado".
+
+   Basta trocar os textos:
+
+   COLOQUE_AQUI_O_LINK_DA_PASTELARIA
+   COLOQUE_AQUI_O_LINK_DA_SORVETERIA
+   etc.
+
+   pelo endereço real do Vercel.
+*/
+
+
+document
+  .querySelectorAll(".project-link")
+  .forEach(link => {
+
+    link.addEventListener("click", function () {
+
+      const url = this.getAttribute("href");
+
+      if (
+        !url ||
+        url === "#" ||
+        url.startsWith("COLOQUE_AQUI")
+      ) {
+
+        console.warn(
+          "Este projeto ainda não possui um link configurado."
+        );
+
+      }
+
+    });
+
+  });
